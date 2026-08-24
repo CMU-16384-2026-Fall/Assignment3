@@ -1,6 +1,5 @@
 import os
 import zipfile
-from datetime import datetime
 
 def create_submission():
     # List of files to include in the submission
@@ -12,9 +11,9 @@ def create_submission():
         'sample_path_plot.png'  # Assuming the student saved their plot with this name
     ]
 
-    # Create a timestamp for the zip file name
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    zip_filename = f"ex_01_submission_{timestamp}.zip"
+    # Prompt for Andrew ID and name the zip file accordingly
+    andrew_id = input("Enter your andrew ID: ").strip()
+    zip_filename = f"{andrew_id}_hw3.zip"
 
     # Create a zip file
     with zipfile.ZipFile(zip_filename, 'w') as zipf:
