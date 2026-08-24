@@ -42,8 +42,9 @@
 % UPDATE THIS EACH SEMESTER
 \newcommand{\instructor}{\href{https://www.ri.cmu.edu/ri-faculty/jeffrey-ichnowski/}{Prof. Jeff Ichnowski}}
 
-\newcommand{\tasns}{\href{https://www.shahramnajamsyed.com}{Shahram Najam Syed}}
-\newcommand{\tayuemin}{\href{https://www.shahramnajamsyed.com}{Yuemin Mao}}
+\newcommand{\taalbert}{\href{https://scholar.google.com/citations?user=9xBtRaMAAAAJ&hl=en}{Albert Xu}}
+\newcommand{\tahenry}{\href{https://s-hliao.github.io/}{Henry Liao}}
+\newcommand{\takarthik}{\href{https://www.linkedin.com/in/srini-karthik/}{Karthik Srinivasan}}
 
 % change the numbering of questions and subquestions
 \renewcommand{\thepartno}{\arabic{partno}}
@@ -65,7 +66,7 @@
     \assignmentname
     \ifdef{\writeup}{\\\textbf{Answer Key: Course Staff Only}}{}
 }
-\author{Robot Kinematics and Dynamics \\ \instructor \\ \tasns \\ \tayuemin}
+\author{Robot Kinematics and Dynamics \\ \instructor \\ \taalbert \\ \tahenry \\ \takarthik}
 \date{\ifdef{\duedate}{Due: 9:00PM EST, \duedate}{\examdate}}
 \date{\ifdef{\duedatetime}{Due: \duedatetime}{}}
 
