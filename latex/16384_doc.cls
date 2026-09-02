@@ -42,7 +42,7 @@
 % UPDATE THIS EACH SEMESTER
 \newcommand{\instructor}{\href{https://www.ri.cmu.edu/ri-faculty/jeffrey-ichnowski/}{Prof. Jeff Ichnowski}}
 
-\newcommand{\taalbert}{\href{https://scholar.google.com/citations?user=9xBtRaMAAAAJ&hl=en}{Albert Xu}}
+\newcommand{\taalbert}{\href{https://scholar.google.com/citations?user=9xBtRaMAAAAJ\&hl=en}{Albert Xu}}
 \newcommand{\tahenry}{\href{https://s-hliao.github.io/}{Henry Liao}}
 \newcommand{\takarthik}{\href{https://www.linkedin.com/in/srini-karthik/}{Karthik Srinivasan}}
 
@@ -88,8 +88,9 @@
 \newcommand{\writtenSection}{
 \section{Instructions} 
 \begin{itemize}
-    \item The deadline for this project is 26th September, 2024 09:00 P.M.
-    \item Zip your code into a single file named \texttt{<AndrewId>.zip}. See the complete submission checklist at the end, to ensure you have everything. Submit your PDF file to Gradescope.
+    \item See Canvas for the due date.
+    \item There are two separate submissions to Gradescope: your written \texttt{writeup.pdf} and your code, zipped as \texttt{<andrew\_id>\_hw3.zip}. Run \texttt{create\_submission.py} to generate the code zip. See the complete submission checklist at the end, to ensure you have everything.
+    \item You are free to write \texttt{writeup.pdf} using any method, but we recommend \LaTeX{} for consistent formatting. You can upload the assignment zip to \href{https://www.overleaf.com/}{Overleaf} and edit \texttt{assignment3.tex} directly.
     \item Each question (for points) is marked with a \textbf{points} heading.
     \item \textbf{Start early!} This homework may take a long time to complete.
     \item \textbf{During submission indicate the answer/page correspondence carefully when submitting on Gradescope.} If you skip a written question, just submit a blank page for it. This makes our work much easier to grade.

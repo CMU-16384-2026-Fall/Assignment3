@@ -1,7 +1,13 @@
-\newcommand{\duedate}{26 September 2024}
-\documentclass{16384_doc} %% Change for your computer
+\newcommand{\duedatetime}{See Canvas for the due date}
+% 16384_doc.cls lives in latex/ relative to this file; input@path lets
+% \documentclass find it there without changing directory structure.
+\makeatletter
+\def\input@path{{latex/}}
+\makeatother
+\documentclass{16384_doc}
 
 \newcommand{\assignmentname}{Assignment 3: Inverse Differential Kinematics}
+\graphicspath{{latex/}}
 
 \begin{document}
 \maketitle
@@ -141,10 +147,12 @@ result in $J^{-1}$.
 
 In this class you would be using the following websites regularly:
 \begin{itemize}
-    \item \href{https://canvas.cmu.edu/courses/42018}{Canvas}: The main course web page. This links to everything relevant to the class (including the next two links).
-    \item \href{https://piazza.com/class/m09xl90abke42b}{Piazza}: This is the best way to ask course staff questions, and see course announcements.
-    \item \href{https://www.gradescope.com/courses/820155/assignments/4876306/submissions}{Gradescope}: This is where you will be turning in your homework. You should have already been added to the course. If you haven't, please contact the course staff via email or Piazza post.
-\end{itemize}    
+    \item \href{https://canvas.cmu.edu/courses/56566}{Canvas}: The main course web page. This links to everything relevant to the class (including the next two links).
+    \item \href{https://piazza.com/class/mt8vtez94dv38b}{Piazza}: This is the best way to ask course staff questions, and see course announcements.
+    \item \href{https://www.gradescope.com/courses/1369131}{Gradescope}: This is where you will be turning in your homework. You should have already been added to the course. If you haven't, please contact the course staff via email or Piazza post.
+\end{itemize}
+
+You can write your \verb!writeup.pdf! in \href{https://www.overleaf.com/}{Overleaf}: upload the assignment zip as a new project, and use \verb!assignment3.tex! as your template (it pulls in \verb!16384_doc.cls! and the figures from the \verb!latex/! folder automatically).
 
 \writtenSection
 
@@ -347,9 +355,9 @@ In this class you would be using the following websites regularly:
     \end{center}
     \begin{enumerate} [label=\alph*.]
         \item \text{[1 point]} What is the dimension of the end-effector Jacobian, now considering
-        \begin{bmatrix}
+        $\begin{bmatrix}
             x \\ y \\ \theta
-        \end{bmatrix}
+        \end{bmatrix}$
         %\smcolvec{x\\y\\\th}
         end-effector positions in $SE(2)$.
         \begin{tcolorbox}[height=3cm]
@@ -493,17 +501,26 @@ In this class you would be using the following websites regularly:
 
 \section{Code Questions}
   
-Copy the Code Handout folder to some location of your choice. Open Matlab and navigate to that location. Whenever you work on the assignment, go into this directory and run \verb!setup.m!. 
+Ensure Python and the
+NumPy and Matplotlib libraries are correctly installed.
+
+For Python installation, visit:
+\begin{center}
+    \href{https://www.python.org/downloads/}{https://www.python.org/downloads/}
+\end{center}
+For NumPy and Matplotlib, install via pip:
+\begin{verbatim}
+    pip install numpy matplotlib
+\end{verbatim}
+
+After setting up, download the \verb!code! folder from the \href{https://github.com/CMU-16384-2026-Fall/Assignment3}{GitHub repository} and navigate to that location. Whenever you work on the assignment, run your scripts from inside this directory.
 
 \begin{questions}
-    \titledquestion{\text{[50 points]} General Robot Class} 
-    Open directory \verb!ex_01!.
-    Surely, you don't want to keep writing forward kinematics and Jacobians for
-    every single assignment in this class!
+    \titledquestion{\text{[50 points]} General Robot Class}
+    Open directory \verb!code!.
     For this exercise, we will walk you through the creation of a general Python
-    class that we will continue to use and extend for the remainder of this
-    class. We will begin with writing forward kinematics for any RR arm, and
-    then compute the Jacobian for any RR arm.
+    class representing a fixed-base kinematic chain. You will implement
+    forward kinematics for any RR arm.
     First, open the file \verb!Robot.py!, and study this file. This is a basic Python
     class. The idea here is that you can pass parameters to the \emph{constructor} of
     the robot class, and the returned object then has methods that can be
@@ -538,15 +555,13 @@ Copy the Code Handout folder to some location of your choice. Open Matlab and na
     \paragraph{Verification and Submission} To verify your results:
     \begin{enumerate}
       \item Run the \verb!sample_path! function. This will generate a plot and save
-            two NumPy array files: \verb!calculated_path.npy! and \verb!ground_truth_path.npy!.
-      \item The autograder on Gradescope will use a \verb!test_path_overlap.py! script to
-            test your implementation. This script will load the saved paths, calculate
-            the overlap between your calculated path and the ground truth, and verify
-            that the overlap is 90\% or greater.
+            two CSV files: \verb!calculated_path.csv! and \verb!ground_truth_path.csv!.
+      \item The autograder on Gradescope will check your implementation against
+            different test cases.
       \item To submit your work:
         \begin{itemize}
-          \item Run the \verb!create_submission.py! script provided in the \verb!ex_01! directory.
-                This will zip up all necessary files in the \verb!ex_01! folder.
+          \item Run the \verb!create_submission.py! script provided in the \verb!code! directory.
+                This will zip up all necessary files in the \verb!code! folder.
           \item Submit the resulting zip file to Gradescope.
         \end{itemize}
     \end{enumerate}
@@ -557,13 +572,13 @@ Copy the Code Handout folder to some location of your choice. Open Matlab and na
 
 \begin{submissionChecklist}
 			\item Create a PDF of your answers to the written questions with the name \verb!writeup.pdf!.
-		\item Make sure you have \verb!writeup.pdf! in the same folder as the \verb!create_submission.m! script.
-		\item Run \verb!create_submission.m! in Matlab.
-		\item Upload \verb!handin-3.tar.gz! to Gradescope.
+		\item Make sure \verb!writeup.pdf! includes your saved sample-path plot and FK write-up from the Code Questions section.
+		\item Run \verb!create_submission.py! inside the \verb!code! directory to generate the submission zip file.
+		\item Upload the resulting \verb!<andrew_id>_hw3.zip! to Gradescope.
 		\item Upload \verb!writeup.pdf! to Gradescope.
 		% \item After completing the entire assignment, fill out the feedback
 		% form\footnotemark.
-		%~and make sure to add the submission code as the answer to the feedback section. 
+		%~and make sure to add the submission code as the answer to the feedback section.
 		% \footnotetext{\texttt{\href{\feedbackURL}{\feedbackURL}}}
 	\end{submissionChecklist}
 

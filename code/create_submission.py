@@ -6,8 +6,8 @@ def create_submission():
     files_to_include = [
         'Robot.py',
         'sample_path.py',
-        'calculated_path.npy',
-        'ground_truth_path.npy',
+        'calculated_path.csv',
+        'ground_truth_path.csv',
         'sample_path_plot.png'  # Assuming the student saved their plot with this name
     ]
 
