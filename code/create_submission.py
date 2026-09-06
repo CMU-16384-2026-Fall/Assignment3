@@ -5,10 +5,6 @@ def create_submission():
     # List of files to include in the submission
     files_to_include = [
         'Robot.py',
-        'sample_path.py',
-        'calculated_path.csv',
-        'ground_truth_path.csv',
-        'sample_path_plot.png'  # Assuming the student saved their plot with this name
     ]
 
     # Prompt for Andrew ID and name the zip file accordingly
