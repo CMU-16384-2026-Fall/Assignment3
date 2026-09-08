@@ -59,23 +59,26 @@ overall result. You only need `numpy` installed.
 
 ## Test cases available to you
 
-`local_autograder/` ships one file per chain length, each with 200 joint-angle
-inputs and the reference end-effector outputs (`gt_x`, `gt_y`) for these arms:
+`local_autograder/` ships 25 test cases — five arms each for chain lengths 2
+through 6 (`expected_2dof_1.csv` … `expected_6dof_5.csv`). Each file has 200
+joint-angle inputs and the reference end-effector outputs (`gt_x`, `gt_y`) for
+one arm:
 
-| file | links | link lengths |
-|---|---|---|
-| `expected_2dof.csv` | 2 | `[0.55, 0.4]` |
-| `expected_3dof.csv` | 3 | `[0.3, 0.3, 0.3]` |
-| `expected_4dof.csv` | 4 | `[0.3, 0.25, 0.2, 0.15]` |
-| `expected_5dof.csv` | 5 | `[0.2, 0.2, 0.2, 0.2, 0.2]` |
-| `expected_6dof.csv` | 6 | `[0.2, 0.15, 0.15, 0.15, 0.1, 0.1]` |
+| links | link lengths |
+|---|---|
+| 2 | `[0.55, 0.4]`, `[0.25, 0.65]`, `[0.4, 0.4]`, `[0.7, 0.2]`, `[0.3, 0.5]` |
+| 3 | `[0.3, 0.3, 0.3]`, `[0.5, 0.3, 0.2]`, `[0.4, 0.35, 0.25]`, `[0.6, 0.2, 0.2]`, `[0.25, 0.25, 0.5]` |
+| 4 | `[0.3, 0.25, 0.2, 0.15]`, `[0.25, 0.25, 0.25, 0.25]`, `[0.4, 0.3, 0.2, 0.1]`, `[0.35, 0.3, 0.2, 0.15]`, `[0.2, 0.2, 0.3, 0.3]` |
+| 5 | `[0.2, 0.2, 0.2, 0.2, 0.2]`, `[0.3, 0.25, 0.2, 0.15, 0.1]`, `[0.25, 0.2, 0.2, 0.15, 0.2]`, `[0.3, 0.3, 0.2, 0.1, 0.1]`, `[0.15, 0.25, 0.25, 0.2, 0.15]` |
+| 6 | `[0.2, 0.15, 0.15, 0.15, 0.1, 0.1]`, `[0.2, 0.2, 0.15, 0.15, 0.1, 0.1]`, `[0.15, 0.15, 0.15, 0.15, 0.15, 0.15]`, `[0.25, 0.2, 0.15, 0.1, 0.1, 0.1]`, `[0.2, 0.2, 0.2, 0.15, 0.15, 0.1]` |
 
 The link lengths for each file are also on its first line (`# link_lengths=...`).
 
-Gradescope grades the same idea but with a fresh random jitter on the joint
-angles and link lengths, and more link-length configs per chain. A correct,
-general `forward_kinematics` passes both; code hard-coded to these exact numbers
-passes here but fails on Gradescope.
+Gradescope grades the exact same 25 arms, but generates fresh random joint
+angles and perturbs the link lengths a little on every run (it computes the
+answers from the reference solution, not from any file). A correct, general
+`forward_kinematics` passes both; code hard-coded to these exact numbers passes
+here but fails on Gradescope.
 
 ## Submitting
 

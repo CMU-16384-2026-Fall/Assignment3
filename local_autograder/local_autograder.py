@@ -4,16 +4,17 @@
     python local_autograder.py path/to/Robot.py
     python local_autograder.py path/to/code   # a folder containing Robot.py
 
-It loads your Robot.py and runs your Robot.fk over the published test cases for
-every chain length (2- through 6-link). Each expected_{n}dof.csv next to this
-script holds the joint-angle inputs and the reference end-effector outputs
-(gt_x, gt_y) for one arm; this compares your path against them within 1 cm and
-prints PASS/FAIL per chain length plus an overall result.
+It loads your Robot.py and runs your Robot.fk over every published test case
+(2- through 6-link arms). Each expected_*.csv next to this script holds the
+joint-angle inputs and the reference end-effector outputs (gt_x, gt_y) for one
+arm; this compares your path against them within 1 cm and prints PASS/FAIL per
+arm plus an overall result.
 
 There is no answer key here: it only compares your output against the shipped
-expected outputs. Gradescope runs the same idea with a fresh random jitter on
-the inputs, so a correct, general forward_kinematics passes both while code
-hard-coded to these exact numbers passes here and fails there.
+expected outputs. Gradescope runs the same arms with fresh random joint angles
+and lightly-perturbed link lengths each run, so a correct, general
+forward_kinematics passes both while code hard-coded to these exact numbers
+passes here and fails there.
 """
 
 import glob
@@ -58,7 +59,7 @@ def load_robot(path):
 
 
 def load_fixture(path):
-    """(link_lengths, theta_rows, gt_xy) from an expected_{n}dof.csv.
+    """(link_lengths, theta_rows, gt_xy) from an expected_*.csv.
 
     Line 1 is a '# link_lengths=...' comment; the rest is
     theta_0..theta_{n-1}, gt_x, gt_y.
@@ -104,9 +105,9 @@ def compare_ee_paths(got, expected, tol=POINT_TOLERANCE_M):
 
 
 def main(argv):
-    fixtures = sorted(glob.glob(os.path.join(HERE, "expected_*dof.csv")))
+    fixtures = sorted(glob.glob(os.path.join(HERE, "expected_*.csv")))
     if not fixtures:
-        sys.exit("No expected_*dof.csv fixtures were found next to this script.")
+        sys.exit("No expected_*.csv fixtures were found next to this script.")
 
     robot_path = find_robot_py(argv[1] if len(argv) > 1 else None)
     if robot_path is None:
@@ -139,9 +140,9 @@ def main(argv):
 
     print()
     if all_ok:
-        print("PASS -- your forward kinematics matches the reference on every chain.")
+        print("PASS -- your forward kinematics matches the reference on every arm.")
         return 0
-    print("FAIL -- some chains do not match. Check your homogeneous transforms; "
+    print("FAIL -- some arms do not match. Check your homogeneous transforms; "
           "the failing chain length tells you where to look.")
     return 1
 
