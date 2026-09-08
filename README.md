@@ -1,4 +1,40 @@
-# Assignment3
+# Assignment 3 — Forward Kinematics
+
+Implement the forward kinematics of a planar revolute (RR…R) arm in
+`code/Robot.py`. Given the link lengths and the joint angles, `Robot.fk` returns
+the chain of homogeneous frames, and the end effector is the last frame. See
+`assignment3.pdf` for the full writeup and the written questions.
+
+## Folder layout
+
+- `assignment3.tex`, `assignment3.pdf` — the writeup (source and compiled).
+- `code/` — the code you work in:
+  - `Robot.py` — **the file you edit and submit.** Fill in `forward_kinematics`.
+  - `sample_path.py` — plots your end-effector path against the sample ground
+    truth, a quick visual sanity check.
+  - `create_submission.py` — packages `Robot.py` into the zip to upload.
+  - `sample_ground_truth.csv` — the sample 2-link log `sample_path.py` uses.
+- `local_autograder/` — the local self-check (see below).
+- `latex/` — the document class and figures for the writeup.
+
+The due date is on Canvas.
+
+## Editing the writeup
+
+`assignment3.tex` is the writeup source; `latex/` holds `16384_doc.cls` and the
+figures. You can upload this folder to Overleaf and use `assignment3.tex` as the
+project's main file.
+
+## Working in the code
+
+From `code/`, visualize your forward kinematics on the sample arm:
+
+```bash
+cd code
+python sample_path.py
+```
+
+You need `numpy` and `matplotlib` for the plot.
 
 ## Checking your code before you submit
 
@@ -40,3 +76,15 @@ Gradescope grades the same idea but with a fresh random jitter on the joint
 angles and link lengths, and more link-length configs per chain. A correct,
 general `forward_kinematics` passes both; code hard-coded to these exact numbers
 passes here but fails on Gradescope.
+
+## Submitting
+
+From `code/`, build the upload zip and submit it to Gradescope:
+
+```bash
+cd code
+python create_submission.py
+```
+
+It asks for your Andrew ID and writes `<andrewid>_hw3.zip` containing `Robot.py`.
+Upload that zip to the HW3 autograder on Gradescope.
