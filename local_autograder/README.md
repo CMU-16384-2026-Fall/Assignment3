@@ -38,15 +38,16 @@ You only need `numpy` installed.
 Using .../code/Robot.py
 
 2-link (link_lengths=[0.55, 0.4]):
-  10/10 poses within 1 cm (100.0%), max error 0.00 cm  PASS
+  10/10 poses within 1 cm  PASS
 3-link (link_lengths=[0.3, 0.3, 0.3]):
-  10/10 poses within 1 cm (100.0%), max error 0.00 cm  PASS
+  10/10 poses within 1 cm  PASS
 ...
 PASS -- your forward kinematics matches the reference on every arm.
 ```
 
-An arm that FAILs prints how many poses were off and the largest error, so the
-failing chain length tells you where to look in your homogeneous transforms.
+An arm that FAILs prints how many poses were off (e.g. `FAIL -- 4/10 poses off
+by > 1 cm`), so the failing chain length tells you where to look in your
+homogeneous transforms.
 
 ## Note on Gradescope
 

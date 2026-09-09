@@ -15,6 +15,12 @@ expected outputs. Gradescope runs the same arms with fresh random joint angles
 and lightly-perturbed link lengths each run, so a correct, general
 forward_kinematics passes both while code hard-coded to these exact numbers
 passes here and fails there.
+
+The evaluation code here (student_ee_path, compare_ee_paths, evaluate_config)
+and its error messages are kept identical to gradescope_version/grade.py; the
+only difference is where each config's joint angles and expected output come
+from -- read from expected_*.csv here, generated and perturbed against the
+reference solution there.
 """
 
 import glob
@@ -22,6 +28,7 @@ import importlib.util
 import os
 import re
 import sys
+import traceback
 
 import numpy as np
 
@@ -77,10 +84,7 @@ def load_fixture(path):
 
 
 def student_ee_path(RobotClass, link_lengths, theta_rows):
-    """(N, 2) end-effector (x, y) from a Robot, one row per pose.
-
-    Uses frames[0, 2, -1] / frames[1, 2, -1], exactly like sample_path.py.
-    """
+    """(N, 2) end-effector (x, y) from a student's Robot, matching sample_path.py."""
     ll = np.asarray(link_lengths, dtype=float).reshape(-1, 1)
     dof = ll.shape[0]
     robot = RobotClass(ll, np.ones((dof, 1)), np.ones((dof, 1)), 0)
@@ -104,6 +108,27 @@ def compare_ee_paths(got, expected, tol=POINT_TOLERANCE_M):
     return passed, len(dists), (float(dists.max()) if len(dists) else 0.0)
 
 
+def evaluate_config(RobotClass, link_lengths, theta, expected):
+    """(passed, total, failure_message_or_None) for one robot config.
+
+    Runs the student's Robot.fk over theta and compares against expected (N, 2)
+    end-effector points. A failure message is returned for the first
+    config-level problem; per-pose mismatches are counted, not raised.
+    """
+    total = theta.shape[0]
+    try:
+        got = student_ee_path(RobotClass, link_lengths, theta)
+    except Exception as err:
+        return 0, total, f"raised {type(err).__name__}: {err}"
+
+    passed, total, max_err = compare_ee_paths(got, expected)
+    if passed == total:
+        return passed, total, None
+    if not np.isfinite(max_err):
+        return passed, total, "end-effector path has the wrong shape or is not finite"
+    return passed, total, f"{total - passed}/{total} poses off by > 1 cm"
+
+
 def main(argv):
     fixtures = sorted(glob.glob(os.path.join(HERE, "expected_*.csv")))
     if not fixtures:
@@ -111,31 +136,24 @@ def main(argv):
 
     robot_path = find_robot_py(argv[1] if len(argv) > 1 else None)
     if robot_path is None:
-        sys.exit("Could not find Robot.py. Pass its path:\n"
+        sys.exit("Robot.py was not found in the usual locations. Pass its path:\n"
                  "    python local_autograder.py path/to/Robot.py")
     print(f"Using {robot_path}\n")
     try:
         RobotClass = load_robot(robot_path)
-    except Exception as err:
-        sys.exit(f"Could not import Robot.py: {err!r}")
+    except Exception:
+        sys.exit("Robot.py failed to import:\n" + traceback.format_exc().strip())
 
     all_ok = True
     for path in fixtures:
         link_lengths, theta, gt_xy = load_fixture(path)
         dof = len(link_lengths)
-        try:
-            got = student_ee_path(RobotClass, link_lengths, theta)
-        except Exception as err:
-            print(f"{dof}-link (link_lengths={link_lengths}):")
-            print(f"  FAIL -- forward kinematics raised {err!r}")
-            all_ok = False
-            continue
-        passed, total, max_err = compare_ee_paths(got, gt_xy)
-        pct = 100.0 * passed / total if total else 0.0
-        status = "PASS" if passed == total else "FAIL"
+        passed, total, msg = evaluate_config(RobotClass, link_lengths, theta, gt_xy)
         print(f"{dof}-link (link_lengths={link_lengths}):")
-        print(f"  {passed}/{total} poses within {POINT_TOLERANCE_M * 100:.0f} cm "
-              f"({pct:.1f}%), max error {max_err * 100:.2f} cm  {status}")
+        if msg is None:
+            print(f"  {passed}/{total} poses within {POINT_TOLERANCE_M * 100:.0f} cm  PASS")
+        else:
+            print(f"  FAIL -- {msg}")
         all_ok = all_ok and passed == total
 
     print()
