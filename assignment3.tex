@@ -558,8 +558,28 @@ After setting up, download the \verb!code! folder from the \href{https://github.
             two CSV files: \verb!calculated_path.csv! and \verb!ground_truth_path.csv!.
             This is for your own reference, to check whether your output matches
             the sample test case.
+      \item Run the local self-check before submitting: from the
+            \verb!local_autograder! directory, run
+            \begin{verbatim}
+python local_autograder.py
+            \end{verbatim}
+            This runs your \verb!Robot.fk! over 25 published test arms (chain
+            lengths 2 through 6) and prints PASS/FAIL for each. A FAIL message
+            tells you what to look for:
+            \begin{itemize}
+              \item \verb!<n>/<total> poses off by > 1 cm! --- \verb!fk! runs
+                    but returns the wrong position; check your homogeneous
+                    transforms.
+              \item \verb!raised <ExceptionType>: <message>! --- \verb!fk!
+                    crashed; the message says where.
+              \item \verb!end-effector path has the wrong shape or is not finite!
+                    --- your output isn't the expected $(N, 2)$ array, or it
+                    contains NaN/inf.
+            \end{itemize}
       \item The autograder on Gradescope will check your implementation against
-            different test cases.
+            the same 25 arms and joint angles, but perturbs each one a little
+            and checks against the reference solution instead of a file. If the
+            local check above passes, you should pass on Gradescope too.
       \item To submit your work:
         \begin{itemize}
           \item Run the \verb!create_submission.py! script provided in the \verb!code! directory.
