@@ -59,10 +59,10 @@ overall result. You only need `numpy` installed.
 
 ## Test cases available to you
 
-`local_autograder/` ships 25 test cases — five arms each for chain lengths 2
-through 6 (`expected_2dof_1.csv` … `expected_6dof_5.csv`). Each file has 200
-joint-angle inputs and the reference end-effector outputs (`gt_x`, `gt_y`) for
-one arm:
+`local_autograder/` ships 25 arms — five each for chain lengths 2 through 6
+(`expected_2dof_1.csv` … `expected_6dof_5.csv`). Each file has 10 joint-angle
+inputs and the reference end-effector outputs (`gt_x`, `gt_y`) for one arm (250
+cases in all):
 
 | links | link lengths |
 |---|---|
@@ -74,11 +74,10 @@ one arm:
 
 The link lengths for each file are also on its first line (`# link_lengths=...`).
 
-Gradescope grades the exact same 25 arms, but generates fresh random joint
-angles and perturbs the link lengths a little on every run (it computes the
-answers from the reference solution, not from any file). A correct, general
-`forward_kinematics` passes both; code hard-coded to these exact numbers passes
-here but fails on Gradescope.
+Gradescope grades these exact same cases, but perturbs each one a little on
+every run (it computes the answers from the reference solution, not from any
+file). A correct, general `forward_kinematics` passes both; code hard-coded to
+these exact numbers passes here but fails on Gradescope.
 
 ## Submitting
 
